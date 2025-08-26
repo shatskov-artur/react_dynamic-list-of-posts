@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { Comment } from '../types/Comment';
+import { Comment } from '../../types/Comment';
 
 const defaultValues = {
   name: '',
@@ -15,16 +15,16 @@ type FormErrors = Partial<Record<keyof FormValues, string>>;
 function validate({ name, email, body }: FormValues): FormErrors {
   const errors: FormErrors = {};
 
-  if (!name) {
+  if (!name.trim()) {
     errors.name = 'Name is required';
   }
 
-  if (!email) {
-    errors.email = 'Name is required';
+  if (!email.trim()) {
+    errors.email = 'Email is required';
   }
 
-  if (!body) {
-    errors.body = 'Name is required';
+  if (!body.trim()) {
+    errors.body = 'Comment text is required';
   }
 
   return errors;
@@ -53,6 +53,7 @@ export const NewCommentForm: React.FC<Props> = ({ postId, onAddComment }) => {
     setIsCreating(true);
     onAddComment({ postId, ...values })
       .then(() => setValues(prev => ({ ...prev, body: '' })))
+      .catch()
       .finally(() => setIsCreating(false));
   };
 

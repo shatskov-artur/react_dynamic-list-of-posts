@@ -1,8 +1,8 @@
 import React from 'react';
-import { Loader } from './Loader';
-import { NewCommentForm } from './NewCommentForm';
-import { Post } from '../types/Post';
-import { Comment } from '../types/Comment';
+import { Loader } from '../Loader';
+import { NewCommentForm } from '../NewCommentForm';
+import { Post } from '../../types/Post';
+import { Comment } from '../../types/Comment';
 
 interface Props {
   post: Post;
@@ -71,7 +71,9 @@ export const PostDetails: React.FC<Props> = ({
                       type="button"
                       className="delete is-small"
                       aria-label="delete"
-                      onClick={() => {handleDelete(comment.id)}}
+                      onClick={() => {
+                        handleDelete(comment.id);
+                      }}
                     >
                       delete button
                     </button>

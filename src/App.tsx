@@ -5,8 +5,8 @@ import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
 
-import { PostsList } from './components/PostsList';
-import { PostDetails } from './components/PostDetails';
+import { PostsList } from './components/PostList';
+import { PostDetails } from './components/PostDetails/PostDetails';
 import { UserSelector } from './components/UserSelector';
 import { Loader } from './components/Loader';
 import React, { useEffect, useState } from 'react';
@@ -46,8 +46,8 @@ export const App = () => {
         .getPosts(selectedUser.id)
         .then(setPostsFromServer)
         .catch(() => {
-          setSelectedUser(undefined);
-          setError('sth went wrong');
+          // setSelectedUser(undefined);
+          setError('Something went wrong!');
         })
         .finally(() => setLoadingPosts(false));
     }
@@ -71,6 +71,16 @@ export const App = () => {
         .finally(() => setLoadingComments(false));
     }
   }, [selectedPost]);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('');
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   const handleDeleteComment = async (commentId: number) => {
     setCommentsFromServer(prev =>
@@ -117,7 +127,7 @@ export const App = () => {
 
                 {loadingPosts && <Loader />}
 
-                {error === 'sth went wrong' && (
+                {error === 'Something went wrong!' && (
                   <div
                     className="notification is-danger"
                     data-cy="PostsLoadingError"
